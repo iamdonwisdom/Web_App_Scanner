@@ -5,6 +5,8 @@ target = input("Enter target URL: ")
 try:
     response = requests.get(target)
 
+    findings = []
+
     print("\n=== Target Information ===")
     print("Status Code:", response.status_code)
 
@@ -15,6 +17,7 @@ try:
 
 except Exception as e:
     print("Error:", e)
+    exit()
 
 print("\n=== Security Header Analysis ===")
 
@@ -31,6 +34,21 @@ for header in security_headers:
         print(f"[+] {header} Present")
     else:
         print(f"[-] {header} Missing")
+
+        if header == "Strict-Transport-Security":
+            findings.append(("Missing HSTS Header", "HIGH"))
+
+        elif header == "Content-Security-Policy":
+            findings.append(("Missing CSP Header", "MEDIUM"))
+
+        else:
+            findings.append((f"Missing {header}", "LOW"))
+
+if "Server" in response.headers:
+    findings.append(("Server Header Exposed", "LOW"))
+
+if "X-Powered-By" in response.headers:
+    findings.append(("X-Powered-By Header Exposed", "MEDIUM"))
 
 print("\n=== robots.txt Analysis ===")
 
@@ -71,9 +89,9 @@ try:
         url = target.rstrip("/") + "/" + directory
 
         try:
-            response = requests.get(url, timeout=3)
+            directory_response = requests.get(url, timeout=3)
 
-            if response.status_code == 200:
+            if directory_response.status_code == 200:
                 print(f"[FOUND] {url}")
 
         except:
@@ -81,3 +99,8 @@ try:
 
 except FileNotFoundError:
     print("wordlist.txt not found")
+
+print("\n=== Risk Assessment ===")
+
+for issue, risk in findings:
+    print(f"[{risk}] {issue}")
