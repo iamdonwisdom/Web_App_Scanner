@@ -104,3 +104,43 @@ print("\n=== Risk Assessment ===")
 
 for issue, risk in findings:
     print(f"[{risk}] {issue}")
+
+html_content = f"""
+<html>
+<head>
+    <title>Web Security Report</title>
+</head>
+<body>
+
+<h1>Web Application Security Assessment</h1>
+
+<p><strong>Target:</strong> {target}</p>
+
+<h2>Findings</h2>
+
+<table border="1">
+<tr>
+<th>Issue</th>
+<th>Risk</th>
+</tr>
+"""
+
+for issue, risk in findings:
+    html_content += f"""
+<tr>
+<td>{issue}</td>
+<td>{risk}</td>
+</tr>
+"""
+
+html_content += """
+</table>
+
+</body>
+</html>
+"""
+
+with open("reports/report.html", "w") as report:
+    report.write(html_content)
+
+print("\n[+] HTML report generated: reports/report.html")
