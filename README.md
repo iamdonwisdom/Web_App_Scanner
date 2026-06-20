@@ -50,3 +50,23 @@ Author
 Ede Chidozie Philip
 
 GitHub: https://github.com/iamdonwisdom
+
+## Screenshots
+
+### Scan Output
+![Scan Output](screenshots/scan-output1.png)
+
+### Security Header Analysis
+![Security Headers](screenshots/scan-output2.png)
+
+### robots.txt Analysis
+![robots.txt](screenshots/scan-output3.png)
+
+### Directory Enumeration
+![Directory Enumeration](screenshots/scan-output4.png)
+
+### Risk Assessment
+![Risk Assessment](screenshots/scan-output5.png)
+
+### HTML Report
+![HTML Report](screenshots/scan-output10.png)
