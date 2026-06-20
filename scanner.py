@@ -58,3 +58,26 @@ try:
 
 except Exception as e:
     print("Error checking robots.txt:", e)
+
+print("\n=== Directory Enumeration ===")
+
+try:
+    with open("wordlist.txt", "r") as file:
+        directories = file.readlines()
+
+    for directory in directories:
+        directory = directory.strip()
+
+        url = target.rstrip("/") + "/" + directory
+
+        try:
+            response = requests.get(url, timeout=3)
+
+            if response.status_code == 200:
+                print(f"[FOUND] {url}")
+
+        except:
+            pass
+
+except FileNotFoundError:
+    print("wordlist.txt not found")
