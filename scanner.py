@@ -31,3 +31,30 @@ for header in security_headers:
         print(f"[+] {header} Present")
     else:
         print(f"[-] {header} Missing")
+
+print("\n=== robots.txt Analysis ===")
+
+robots_url = target.rstrip("/") + "/robots.txt"
+
+try:
+    robots_response = requests.get(robots_url)
+
+    if robots_response.status_code == 200:
+        print(f"[+] robots.txt found: {robots_url}")
+
+        sensitive_paths = [
+            "/admin",
+            "/login",
+            "/private",
+            "/backup"
+        ]
+
+        for path in sensitive_paths:
+            if path in robots_response.text:
+                print(f"[FOUND] {path}")
+
+    else:
+        print("[-] robots.txt not found")
+
+except Exception as e:
+    print("Error checking robots.txt:", e)
